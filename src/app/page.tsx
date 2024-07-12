@@ -1,4 +1,3 @@
-import Header from '@/components/Header/Header';
 import Sidebar from '@/components/Sidebar/Sidebar';
 import UploadFiles from '@/components/UploadFiles/UploadFiles';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';

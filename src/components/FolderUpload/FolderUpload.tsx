@@ -4,8 +4,7 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { FolderPlusIcon, GlobeAltIcon } from '@heroicons/react/24/solid';
+import { FolderPlusIcon } from '@heroicons/react/24/solid';
 
 const FolderUpload: FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);

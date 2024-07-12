@@ -5,7 +5,7 @@
     "eslint:recommended",
     "plugin:prettier/recommended",
     "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
+    "plugin:react-hooks/recommended"
   ],
   "plugins": ["prettier", "eslint-plugin-prettier", "eslint-plugin-import", "@typescript-eslint"],
   "rules": {
@@ -17,19 +17,20 @@
     "import/no-unused-modules": "warn",
     "react-hooks/exhaustive-deps": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }],
+    "react/no-unknown-property": ["error", { "ignore": ["directory", "webkitdirectory"] }]
   },
   "env": {
     "browser": true,
     "node": true,
-    "es6": true,
+    "es6": true
   },
   "settings": {
     "react": {
-      "version": "detect",
-    },
+      "version": "detect"
+    }
   },
   "globals": {
     "React": true,
-    "globalThis": false,
-  },
+    "globalThis": false
+  }
 }
