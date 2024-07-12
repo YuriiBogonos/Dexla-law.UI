@@ -4,11 +4,14 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Progress } from '@/components/ui/progress';
 import { FolderPlusIcon } from '@heroicons/react/24/solid';
 
 const FolderUpload: FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const acceptedFileTypes = [
@@ -25,13 +28,30 @@ const FolderUpload: FC = () => {
     }
 
     console.log('Uploaded files:', uploadedFiles);
-    // Handle the uploaded files as needed
+    simulateUpload();
   }, []);
+
+  const simulateUpload = () => {
+    setIsUploading(true);
+    setUploadProgress(0);
+
+    const interval = setInterval(() => {
+      setUploadProgress((prevProgress) => {
+        if (prevProgress >= 100) {
+          clearInterval(interval);
+          setIsUploading(false);
+          return 100;
+        }
+        return prevProgress + 10;
+      });
+    }, 500);
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     noClick: true,
     noKeyboard: true,
+    disabled: isUploading,
   });
 
   const handleClick = () => {
@@ -42,7 +62,7 @@ const FolderUpload: FC = () => {
     if (alertMessage) {
       const timer = setTimeout(() => {
         setAlertMessage(null);
-      }, 3000); // Adjust the duration as needed
+      }, 3000);
 
       return () => clearTimeout(timer);
     }
@@ -58,7 +78,7 @@ const FolderUpload: FC = () => {
       )}
       <div
         {...getRootProps()}
-        className={`p-6 rounded-lg text-centerw${
+        className={`p-6 rounded-lg text-center ${
           isDragActive ? 'border-blue-500' : 'border-gray-300'
         }`}
         onClick={handleClick}
@@ -71,6 +91,7 @@ const FolderUpload: FC = () => {
           directory=''
           multiple
           className='hidden'
+          disabled={isUploading}
         />
         <div className='flex justify-center mb-4'>
           <svg
@@ -89,8 +110,17 @@ const FolderUpload: FC = () => {
         <p className='text-xl font-semibold mb-2'>Drag and drop folder as collection.</p>
         <p className='text-gray-500 mb-6'>Chat with the docs in a collection.</p>
       </div>
-      <div className=' flex justify-around border-t-2'>
-        <button className='flex items-center justify-center flex-1 p-3 space-x-2 text-blue-500'>
+      {isUploading && (
+        <div className='mt-4 flex flex-col items-center justify-center'>
+          <Progress value={uploadProgress} width='75%' />
+          <div className='text-center'>{uploadProgress}%</div>
+        </div>
+      )}
+      <div className='mt-4 flex justify-around border-t-2'>
+        <button
+          className='flex items-center justify-center flex-1 p-3 space-x-2 text-blue-500'
+          disabled={isUploading}
+        >
           <FolderPlusIcon className='h-5 w-5' />
           <span>New Collection</span>
         </button>

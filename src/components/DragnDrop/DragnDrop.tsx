@@ -39,9 +39,14 @@ const DragnDrop: FC = () => {
         }
         return prevProgress + 10;
       });
-    }, 300);
+    }, 5000);
   };
   const handleUploadFromUrl = async () => {
+    if (isUploading) {
+      setAlertMessage('Upload is already in progress. Please wait.');
+      return;
+    }
+
     try {
       const response = await axios.get(url, { responseType: 'blob' });
       const file = new File([response.data], 'downloadedFile', { type: response.data.type });
@@ -56,6 +61,7 @@ const DragnDrop: FC = () => {
         return;
       }
       console.log(file);
+      simulateUpload();
     } catch (error) {
       console.error('Error downloading the file:', error);
     }
@@ -68,6 +74,7 @@ const DragnDrop: FC = () => {
       'application/msword': ['.doc'],
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
     },
+    disabled: isUploading,
   });
   useEffect(() => {
     if (alertMessage) {
@@ -122,8 +129,8 @@ const DragnDrop: FC = () => {
         </aside>
       </div>
       {isUploading && (
-        <div className='mt-4'>
-          <Progress value={uploadProgress} />
+        <div className='mt-4 flex flex-col items-center justify-center'>
+          <Progress value={uploadProgress} width='75%' />
           <div className='text-center'>{uploadProgress}%</div>
         </div>
       )}
