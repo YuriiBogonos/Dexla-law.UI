@@ -1,5 +1,6 @@
 import Sidebar from '@/components/Sidebar/Sidebar';
 import UploadFiles from '@/components/UploadFiles/UploadFiles';
+import TriggerPostRequest from '@/components/test/test';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={75} maxSize={80} className='flex-1 h-full'>
           <UploadFiles />
+          <TriggerPostRequest />
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>
